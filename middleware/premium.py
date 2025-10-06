@@ -2,6 +2,7 @@ import logging
 from functools import wraps
 from flask import request
 from models import Profile
+from datetime import datetime
 from utils.response import error_response
 
 logger = logging.getLogger(__name__)
@@ -27,7 +28,17 @@ def premium_required(f):
             if not profile:
                 return error_response("Profile not found", 404)
             
-            if not profile.premium:
+            # Evaluate premium validity:
+            # - If profile.premium is True and premium_expires_at is None => unlimited (e.g., active subscription)
+            # - If premium_expires_at is set, ensure it's in the future
+            has_premium = False
+            if profile.premium:
+                if getattr(profile, 'premium_expires_at', None) is None:
+                    has_premium = True
+                else:
+                    has_premium = profile.premium_expires_at >= datetime.utcnow()
+
+            if not has_premium:
                 return error_response(
                     "Premium subscription required to access this feature",
                     403,

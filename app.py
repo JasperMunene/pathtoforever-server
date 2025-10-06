@@ -53,7 +53,10 @@ from resources.payments import (
     VerifyPaymentResource,
     PaystackWebhookResource,
     SubscriptionStatusResource,
-    PaymentPlansResource
+    PaymentPlansResource,
+    CancelSubscriptionResource,
+    EnableSubscriptionResource,
+    RenewalReminderResource
 )
 
 api.add_resource(ClerkWebhook, '/webhooks/clerk')
@@ -66,6 +69,9 @@ api.add_resource(InitializePaymentResource, '/payments/initialize')
 api.add_resource(VerifyPaymentResource, '/payments/verify/<string:reference>')
 api.add_resource(PaystackWebhookResource, '/webhooks/paystack')
 api.add_resource(SubscriptionStatusResource, '/payments/subscription/status')
+api.add_resource(CancelSubscriptionResource, '/payments/subscription/cancel')
+api.add_resource(EnableSubscriptionResource, '/payments/subscription/enable')
+api.add_resource(RenewalReminderResource, '/payments/subscription/reminders')
 
 # Matching routes (Premium required)
 api.add_resource(DiscoverMatchesResource, '/matches/discover')

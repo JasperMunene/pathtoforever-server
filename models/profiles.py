@@ -29,6 +29,7 @@ class Profile(db.Model, SerializerMixin):
 
     # Premium Status
     premium = Column(Boolean, default=False)
+    premium_expires_at = Column(DateTime, nullable=True)
 
     # Timestamps
     created_at = Column(DateTime, server_default=func.now())
@@ -40,6 +41,7 @@ class Profile(db.Model, SerializerMixin):
         Index("idx_profile_location", "location"),
         Index("idx_profile_user_id", "user_id"),
         Index("idx_profile_premium", "premium"),
+        Index("idx_profile_premium_expires", "premium_expires_at"),
     )
 
     # Serialization rules
